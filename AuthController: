@@ -1,0 +1,16 @@
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+    @Autowired
+    private AuthService authService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> register(@RequestBody SignUpRequest request) {
+        return ResponseEntity.ok(authService.registerUser(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.loginUser(request));
+    }
+}
