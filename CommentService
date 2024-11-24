@@ -1,0 +1,17 @@
+@Service
+public class CommentService {
+    @Autowired
+    private CommentRepository commentRepository;
+
+    public Comment addComment(Comment comment) {
+        return commentRepository.save(comment);
+    }
+
+    public void deleteComment(String commentId) {
+        commentRepository.deleteById(commentId);
+    }
+
+    public List<Comment> getCommentsByPost(String postId) {
+        return commentRepository.findByPostId(postId);
+    }
+}
