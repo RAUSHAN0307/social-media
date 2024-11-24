@@ -1,0 +1,16 @@
+@RestController
+@RequestMapping("/api/posts")
+public class PostController {
+    @Autowired
+    private PostService postService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        return ResponseEntity.ok(postService.createPost(post));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Post>> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
+    }
+}
