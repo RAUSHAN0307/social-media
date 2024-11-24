@@ -1,0 +1,10 @@
+@Data
+@Document(collection = "posts")
+public class Post {
+    @Id
+    private String id;
+    private String content;
+    private String authorId;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
+}
