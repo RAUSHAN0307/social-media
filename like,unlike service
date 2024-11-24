@@ -1,0 +1,23 @@
+@Service
+public class LikeService {
+    @Autowired
+    private PostRepository postRepository;
+
+    public Post likePost(String postId, String userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        // Assuming likes are maintained as a Set of userIds
+        if (post.getLikes() == null) {
+            post.setLikes(new HashSet<>());
+        }
+        post.getLikes().add(userId);
+        return postRepository.save(post);
+    }
+
+    public Post unlikePost(String postId, String userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        if (post.getLikes() != null) {
+            post.getLikes().remove(userId);
+        }
+        return postRepository.save(post);
+    }
+}
