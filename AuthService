@@ -1,0 +1,27 @@
+@Service
+public class AuthService {
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    public String registerUser(SignUpRequest request) {
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUsername(request.getUsername());
+        userRepository.save(user);
+        return "User registered successfully!";
+    }
+
+    public String loginUser(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        return jwtUtil.generateToken(user.getEmail());
+    }
+}
