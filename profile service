@@ -1,0 +1,16 @@
+@Service
+public class ProfileService {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User updateProfile(String userId, User updatedUser) {
+        User existingUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setBio(updatedUser.getBio());
+        return userRepository.save(existingUser);
+    }
+
+    public User getProfile(String userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+}
